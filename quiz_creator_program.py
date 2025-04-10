@@ -1,4 +1,7 @@
 # Create a loop that will allow you to create a question and answer again
+
+print('WELCOME TO THE QUIZ CREATOR!')
+print('\nPlease write down your questions, choices and answers bellow:\n')
 file = open("quiz_file.txt", "a")
 
 while True:
@@ -21,9 +24,9 @@ while True:
 
 # Ask if you want to save
     while True:
-        save = input("Do you want to save it? yes or no?: ").lower()
+        save = input("\nDo you want to save it? yes or no?: ").lower()
+
         if save in ['yes', 'y']:
-# if yes, all the question and answer will be writen to another file
             file.write(f"\n\n\nQUESTION: \n{question}\n")
             file.write(f"CHOICES:\n")
             file.write(f"A. {choice_a}\n")
@@ -32,13 +35,16 @@ while True:
             file.write(f"D. {choice_d}\n")
             file.write(f"ANSWER:\n{correct_ans}")
             break
-# if no, it will not be saved and automatically proceed
         elif save in ['no', 'n']:
             break
         else:
             print("Invalid input, please enter yes or no")
 
 # Ask if you want to enter a question and answer again
-# If yes, it will ask to input the questions and answers again
-# if no, it will exit the loop and close the program
-    break
+    enter_again = input("\nWould you like to enter again? yes or no?: ")
+    if enter_again in ['yes', 'y']:
+        continue
+    else:
+        print("Thank you")
+        break
+    

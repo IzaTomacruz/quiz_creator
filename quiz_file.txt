@@ -1,0 +1,23 @@
+
+
+
+QUESTION: 
+How many continents are there on earth?
+CHOICES:
+A. 2
+B. 3
+C. 5
+D. 7
+ANSWER:
+D
+
+
+QUESTION: 
+what is 1 + 1 equal to?
+CHOICES:
+A. 2
+B. 4
+C. 5
+D. not in choces
+ANSWER:
+A
