@@ -1,0 +1,102 @@
+[
+    {
+        "question": "What does CPU stand for in computer architecture?",
+        "choices": {
+            "A": "Central Processing Unit",
+            "B": "Computer Power Unit",
+            "C": "Central Program Unit",
+            "D": "Control Processing Unit"
+        },
+        "answer": "A"
+    },
+    {
+        "question": "Which logic gate outputs 1 only when both inputs are 1?",
+        "choices": {
+            "A": "OR",
+            "B": "XOR",
+            "C": "AND",
+            "D": "NAND"
+        },
+        "answer": "C"
+    },
+    {
+        "question": "What is the function of a compiler?",
+        "choices": {
+            "A": "Execute a program",
+            "B": "Convert code to binary",
+            "C": "Translate high-level code to machine code",
+            "D": "Debug the software"
+        },
+        "answer": "C"
+    },
+    {
+        "question": "Which of the following is *not* a type of ROM?",
+        "choices": {
+            "A": "PROM",
+            "B": "EPROM",
+            "C": "EEPROM",
+            "D": "RAM"
+        },
+        "answer": "D"
+    },
+    {
+        "question": "What does an ALU do in a computer processor?",
+        "choices": {
+            "A": "Stores data",
+            "B": "Performs arithmetic and logic operations",
+            "C": "Controls peripheral devices",
+            "D": "Manages network traffic"
+        },
+        "answer": "B"
+    },
+    {
+        "question": "Which bus is responsible for transferring data between the CPU and memory?",
+        "choices": {
+            "A": "Control bus",
+            "B": "Address bus",
+            "C": "Data bus",
+            "D": "System bus"
+        },
+        "answer": "C"
+    },
+    {
+        "question": "In binary representation, what is the decimal value of 1011?",
+        "choices": {
+            "A": "9",
+            "B": "10",
+            "C": "11",
+            "D": "12"
+        },
+        "answer": "C"
+    },
+    {
+        "question": "What is a flip-flop used for in digital circuits?",
+        "choices": {
+            "A": "Amplifying signals",
+            "B": "Storing a single bit of data",
+            "C": "Adding numbers",
+            "D": "Converting analog to digital"
+        },
+        "answer": "B"
+    },
+    {
+        "question": "Which of the following is a non-volatile memory?",
+        "choices": {
+            "A": "SRAM",
+            "B": "DRAM",
+            "C": "ROM",
+            "D": "Cache"
+        },
+        "answer": "C"
+    },
+    {
+        "question": "Which layer of the OSI model is responsible for routing packets?",
+        "choices": {
+            "A": "Transport Layer",
+            "B": "Network Layer",
+            "C": "Data Link Layer",
+            "D": "Application Layer"
+        },
+        "answer": "B"
+    }
+]

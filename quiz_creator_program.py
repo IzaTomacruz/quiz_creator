@@ -1,8 +1,10 @@
 # Create a loop that will allow you to create a question and answer again
+import json
 
 print('WELCOME TO THE QUIZ CREATOR!')
 print('\nPlease write down your questions, choices and answers bellow:\n')
-file = open("quiz_file.txt", "a")
+
+quiz_data = []
 
 while True:
 # Inside the loop:
@@ -27,13 +29,17 @@ while True:
         save = input("\nDo you want to save it? yes or no?: ").lower()
 
         if save in ['yes', 'y']:
-            file.write(f"\n\n\nQUESTION: \n{question}\n")
-            file.write(f"CHOICES:\n")
-            file.write(f"A. {choice_a}\n")
-            file.write(f"B. {choice_b}\n")
-            file.write(f"C. {choice_c}\n")
-            file.write(f"D. {choice_d}\n")
-            file.write(f"ANSWER:\n{correct_ans}")
+            # Save to the quiz_data list as a dictionary
+            quiz_data.append({
+                "question": question,
+                "choices": {
+                    "A": choice_a,
+                    "B": choice_b,
+                    "C": choice_c,
+                    "D": choice_d
+                },
+                "answer": correct_ans
+            })
             break
         elif save in ['no', 'n']:
             break
@@ -47,4 +53,7 @@ while True:
     else:
         print("Thank you")
         break
+    
+with open("questions.json", "a") as file:
+        json.dump(quiz_data, file, indent=4)
     
