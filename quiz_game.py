@@ -1,4 +1,6 @@
 import pygame
+import json
+import random
 
 # Setup the GUI
 pygame.init()
@@ -27,13 +29,37 @@ button_font= pygame.font.Font("graphics/font.ttf", 26)
 start_button = pygame.Rect(300, 280, 200, 60)
 exit_button = pygame.Rect(300, 380, 200, 60)
 
+# Load random questions (10 items)
+with open("questions.json") as f:
+    questions = json.load(f)
+
+# Functions
+def draw_home_screen():
+    screen.blit(background_img, (0, 0))
+    title_text = title_font.render("Welcome to Quiz Game!", True, color_yellowbrown)
+    title_rect = title_text.get_rect(center=(width // 2, 150))
+    screen.blit(title_text, title_rect)
+
+    pygame.draw.rect(screen, color_green, start_button)
+    pygame.draw.rect(screen, color_green, exit_button)
+
+    start_text = button_font.render("START", True, color_white)
+    exit_text = button_font.render("EXIT", True, color_white)
+
+    screen.blit(start_text, (start_button.x + 40, start_button.y + 17))
+    screen.blit(exit_text, (exit_button.x + 48, exit_button.y + 17))
+
+def draw_quiz_screen():
+    screen.blit(quiz_background, (0, 0))
+
+
 home_screen = True
 running = True
 while running:
     if home_screen:
-        screen.blit(background_img, (0, 0))
+        draw_home_screen()
     else:
-        screen.blit(quiz_background, (0, 0))
+        draw_quiz_screen()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -41,23 +67,10 @@ while running:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
-                home_screen = False       
+                home_screen = False
+                print(random.choice(questions))       
             elif exit_button.collidepoint(event.pos):
                 running = False 
-
-    if home_screen:
-        title_text = title_font.render("Welcome to Quiz Game!", True, color_yellowbrown)
-        title_rect = title_text.get_rect(center=(width // 2, 150))
-        screen.blit(title_text, title_rect)
-
-        pygame.draw.rect(screen, color_green, start_button)
-        pygame.draw.rect(screen, color_green, exit_button)
-
-        start_text = button_font.render("START", True, color_white)
-        exit_text = button_font.render("EXIT", True, color_white)
-
-        screen.blit(start_text, (start_button.x + 40, start_button.y + 17))
-        screen.blit(exit_text, (exit_button.x + 48, exit_button.y + 17))
 
     pygame.display.flip()
 
