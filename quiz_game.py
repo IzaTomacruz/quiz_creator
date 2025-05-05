@@ -22,8 +22,9 @@ quiz_background = pygame.image.load("graphics/background2.jpg")
 quiz_background = pygame.transform.scale(quiz_background, (width, height))
 
     # Fonts
-title_font= pygame.font.Font("graphics/font.ttf", 34)
-button_font= pygame.font.Font("graphics/font.ttf", 26)
+title_font = pygame.font.Font("graphics/font.ttf", 34)
+button_font = pygame.font.Font("graphics/font.ttf", 26)
+quiz_font = pygame.font.Font("graphics/font.ttf", 10)
 
     # Button
 start_button = pygame.Rect(300, 280, 200, 60)
@@ -51,6 +52,8 @@ def draw_home_screen():
 
 def draw_quiz_screen():
     screen.blit(quiz_background, (0, 0))
+    question_text = quiz_font.render(current_question["question"], True, color_white)
+    screen.blit(question_text, (100, 100))
 
 
 home_screen = True
@@ -68,7 +71,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.collidepoint(event.pos):
                 home_screen = False
-                print(random.choice(questions))       
+                current_question = random.choice(questions)       
             elif exit_button.collidepoint(event.pos):
                 running = False 
 
