@@ -30,6 +30,13 @@ quiz_font = pygame.font.Font("graphics/font.ttf", 10)
 start_button = pygame.Rect(300, 280, 200, 60)
 exit_button = pygame.Rect(300, 380, 200, 60)
 
+choice_buttons = {
+    "A": pygame.Rect(100, 180, 60, 60),
+    "B": pygame.Rect(100, 260, 60, 60),
+    "C": pygame.Rect(100, 340, 60, 60),
+    "D": pygame.Rect(100, 420, 60, 60)
+    }
+
 # Load random questions (10 items)
 with open("questions.json") as f:
     questions = json.load(f)
@@ -51,10 +58,19 @@ def draw_home_screen():
     screen.blit(exit_text, (exit_button.x + 48, exit_button.y + 17))
 
 def draw_quiz_screen():
+    # question
     screen.blit(quiz_background, (0, 0))
     question_text = quiz_font.render(current_question["question"], True, color_white)
     screen.blit(question_text, (100, 100))
 
+    # choices
+    for key, rect in choice_buttons.items():
+        pygame.draw.rect(screen, color_yellowbrown, rect)
+        label = button_font.render(key, True, color_white)
+        screen.blit(label, (rect.x + 17, rect.y + 17))
+
+        choice_text = quiz_font.render(current_question["choices"][key], True, color_white)
+        screen.blit(choice_text, (rect.x + 80, rect.y + 15))   
 
 home_screen = True
 running = True
