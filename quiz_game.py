@@ -1,6 +1,7 @@
 import pygame
 import json
 import random
+import textwrap
 
 # Setup the GUI
 pygame.init()
@@ -24,7 +25,7 @@ quiz_background = pygame.transform.scale(quiz_background, (width, height))
     # Fonts
 title_font = pygame.font.Font("graphics/font.ttf", 34)
 button_font = pygame.font.Font("graphics/font.ttf", 26)
-quiz_font = pygame.font.Font("graphics/font.ttf", 10)
+quiz_font = pygame.font.Font("graphics/font.ttf", 13)
 
     # Button
 start_button = pygame.Rect(300, 280, 200, 60)
@@ -61,17 +62,28 @@ def draw_quiz_screen():
     # question
     screen.blit(quiz_background, (0, 0))
     if current_question:
-        question_text = quiz_font.render(current_question["question"], True, color_white)
-        screen.blit(question_text, (100, 100))
+        question_text = current_question["question"]
+        wrapped_lines = textwrap.wrap(question_text, width=45)  
+        question_y = 100 
 
+        for line in wrapped_lines:
+            question = quiz_font.render(line, True, color_white)
+            screen.blit(question, (100, question_y))
+            question_y += 25
         # choices
         for key, rect in choice_buttons.items():
             pygame.draw.rect(screen, color_yellowbrown, rect)
             label = button_font.render(key, True, color_white)
             screen.blit(label, (rect.x + 17, rect.y + 17))
 
-            choice_text = quiz_font.render(current_question["choices"][key], True, color_white)
-            screen.blit(choice_text, (rect.x + 80, rect.y + 15))  
+            choice_text = current_question["choices"][key]
+            wrapped_choice_lines = textwrap.wrap(choice_text, width=40)
+            choice_y = rect.y + 5
+
+            for line in wrapped_choice_lines:
+                choice_line = quiz_font.render(line, True, color_white)
+                screen.blit(choice_line, (rect.x + 80, choice_y))  
+                choice_y += 24
 
     if feedback_text:
         feedback = quiz_font.render(feedback_text, True, color_white)
@@ -105,7 +117,6 @@ while running:
             elif next_question:
                 feedback_text = ""
                 next_question = False
-                used_questions = []
 
                 if len(used_questions) == 10:
                     current_question = None
