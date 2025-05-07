@@ -60,20 +60,29 @@ def draw_home_screen():
 def draw_quiz_screen():
     # question
     screen.blit(quiz_background, (0, 0))
-    question_text = quiz_font.render(current_question["question"], True, color_white)
-    screen.blit(question_text, (100, 100))
+    if current_question:
+        question_text = quiz_font.render(current_question["question"], True, color_white)
+        screen.blit(question_text, (100, 100))
 
-    # choices
-    for key, rect in choice_buttons.items():
-        pygame.draw.rect(screen, color_yellowbrown, rect)
-        label = button_font.render(key, True, color_white)
-        screen.blit(label, (rect.x + 17, rect.y + 17))
+        # choices
+        for key, rect in choice_buttons.items():
+            pygame.draw.rect(screen, color_yellowbrown, rect)
+            label = button_font.render(key, True, color_white)
+            screen.blit(label, (rect.x + 17, rect.y + 17))
 
-        choice_text = quiz_font.render(current_question["choices"][key], True, color_white)
-        screen.blit(choice_text, (rect.x + 80, rect.y + 15))   
+            choice_text = quiz_font.render(current_question["choices"][key], True, color_white)
+            screen.blit(choice_text, (rect.x + 80, rect.y + 15))  
+
+    if feedback_text:
+        feedback = quiz_font.render(feedback_text, True, color_white)
+        screen.blit(feedback, (100, 500))
 
 home_screen = True
 running = True
+feedback_text = ""
+next_question = False
+used_questions = []
+
 while running:
     if home_screen:
         draw_home_screen()
@@ -85,17 +94,48 @@ while running:
             running = False
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if start_button.collidepoint(event.pos):
-                home_screen = False
-                current_question = random.choice(questions)       
-            elif exit_button.collidepoint(event.pos):
-                running = False 
+            if home_screen:
+                if start_button.collidepoint(event.pos):
+                    home_screen = False
+                    current_question = random.choice(questions) 
+                    used_questions.append(current_question)      
+                elif exit_button.collidepoint(event.pos):
+                    running = False 
 
-    pygame.display.flip()
+            elif next_question:
+                feedback_text = ""
+                next_question = False
+                used_questions = []
+
+                if len(used_questions) == 10:
+                    current_question = None
+                    home_screen = True
+
+                else:
+                    while True:
+                        next_q = random.choice(questions)
+                        if next_q not in used_questions:
+                            current_question = next_q
+                            used_questions.append(current_question)
+                            break
+                        
+            else:
+                for key, rect in choice_buttons.items():
+                    if rect.collidepoint(event.pos):
+                        if key == current_question["answer"]:
+                            feedback_text = "Correct!"
+                        else:
+                            correct_key = current_question["answer"]
+                            feedback_text = f"Incorrect! Correct answer is: {correct_key}"
+                        next_question = True
+                        break
 
 # Check answer
     # if correct, show correct!
     # if not correct, show the correct answer
+
+    pygame.display.flip()
+
 # show score
 # ask if try again
 
