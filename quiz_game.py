@@ -38,6 +38,9 @@ choice_buttons = {
     "D": pygame.Rect(100, 420, 60, 60)
     }
 
+play_again_button = pygame.Rect(220, 280, 350, 60)
+back_menu_button = pygame.Rect(245, 380, 300, 60)
+
 # Load random questions (10 items)
 with open("questions.json") as f:
     questions = json.load(f)
@@ -89,17 +92,38 @@ def draw_quiz_screen():
         feedback = quiz_font.render(feedback_text, True, color_white)
         screen.blit(feedback, (100, 500))
 
+# show score
+def draw_score_screen():
+    screen.blit(background_img, (0, 0))
+    title_text = title_font.render(f"Your score is {score}/10", True, color_yellowbrown)
+    title_rect = title_text.get_rect(center=(width // 2, 150))
+    screen.blit(title_text, title_rect)
+
+    pygame.draw.rect(screen, color_green, play_again_button)
+    pygame.draw.rect(screen, color_green, back_menu_button)
+
+    again_text = button_font.render("PLAY AGAIN", True, color_white)
+    menu_text = button_font.render("MAIN MENU", True, color_white)
+
+    screen.blit(again_text, (play_again_button.x + 47, play_again_button.y + 17))
+    screen.blit(menu_text, (back_menu_button.x + 37, back_menu_button.y + 17))
+
 home_screen = True
+quiz_screen = False
+score_screen = False
 running = True
 feedback_text = ""
 next_question = False
 used_questions = []
+score = 0
 
 while running:
     if home_screen:
         draw_home_screen()
-    else:
+    elif quiz_screen:
         draw_quiz_screen()
+    elif score_screen:
+        draw_score_screen()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -109,19 +133,38 @@ while running:
             if home_screen:
                 if start_button.collidepoint(event.pos):
                     home_screen = False
+                    quiz_screen = True
                     current_question = random.choice(questions) 
                     used_questions.append(current_question)      
                 elif exit_button.collidepoint(event.pos):
                     running = False 
+# ask if try again
+            elif score_screen:
+                    if play_again_button.collidepoint(event.pos):
+                        used_questions = []
+                        score = 0
+                        feedback_text = ""
+                        next_question = False
+                        score_screen = False
+                        quiz_screen = True
+                        current_question = random.choice(questions)
+                        used_questions.append(current_question)
+                    elif back_menu_button.collidepoint(event.pos):
+                        # Return to main menu
+                        used_questions = []
+                        score = 0
+                        feedback_text = ""
+                        next_question = False
+                        score_screen = False
+                        home_screen = True
 
             elif next_question:
                 feedback_text = ""
                 next_question = False
 
                 if len(used_questions) == 10:
-                    current_question = None
-                    home_screen = True
-
+                    quiz_screen = False
+                    score_screen = True
                 else:
                     while True:
                         next_q = random.choice(questions)
@@ -129,26 +172,22 @@ while running:
                             current_question = next_q
                             used_questions.append(current_question)
                             break
-                        
+# Check answer
             else:
                 for key, rect in choice_buttons.items():
                     if rect.collidepoint(event.pos):
+                        # if correct, show correct!
                         if key == current_question["answer"]:
                             feedback_text = "Correct!"
+                            score += 1
+                        # if not correct, show the correct answer
                         else:
                             correct_key = current_question["answer"]
                             feedback_text = f"Incorrect! Correct answer is: {correct_key}"
                         next_question = True
                         break
 
-# Check answer
-    # if correct, show correct!
-    # if not correct, show the correct answer
-
     pygame.display.flip()
-
-# show score
-# ask if try again
 
 # close if done
 pygame.quit()
